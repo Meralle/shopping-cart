@@ -22,7 +22,7 @@ var database = {
     image: "./assets/images/3.jpeg"
 
   },
-  "Suit": {
+  "books": {
     price: 20,
     shipping: 5.99,
     delivery: 3,
@@ -46,7 +46,7 @@ var database = {
     image: "./assets/images/1.jpeg"
 
   },
-  "Falafel": {
+  "food": {
     price: 3.99,
     shipping: 0,
     delivery: 0,
