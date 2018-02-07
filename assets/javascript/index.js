@@ -25,6 +25,10 @@ class shoppingCart {
   }
   init(){
     //here you take your cart item template and clone this piece of html to a virtual copy
+    var currencySymbol ="$";
+      if(window.location.search.substring(1) ==="lang=de"){
+        currencySymbol = "€";
+      }
     var card = this.elements.template
     for (var i in database ) {
       var element = card.cloneNode(true);
@@ -38,7 +42,7 @@ class shoppingCart {
 
       // price part
       var price = document.createElement("span");
-      price.innerHTML = `price:${database[i].price}€ <br>`
+      price.innerHTML = `price:${database[i].price + currencySymbol} <br>`
       element.querySelector(".card-body").appendChild(price);
       // console.log(database[i].discount)
       if (database[i].discount){
@@ -51,7 +55,9 @@ class shoppingCart {
       // new preice part
       var showNewPrice = document.createElement('p');
       var newPrice = database[i].price - (database[i].price / 100 * database[i].discount);
-      showNewPrice.innerHTML = newPrice + "€";
+            // the currency part
+      
+      showNewPrice.innerHTML = newPrice + currencySymbol;
       showNewPrice.classList.add("text-danger");
       element.querySelector(".card-body").appendChild(showNewPrice);
 
@@ -62,7 +68,7 @@ class shoppingCart {
       info.classList.add("text-muted");
 
       // the currency part
-      let currencySymbol ="$";
+      var currencySymbol ="$";
       if(window.location.search.substring(1) ==="lang=de"){
         currencySymbol = "€";
       }
@@ -181,14 +187,14 @@ class shoppingCart {
     var i = document.createElement("li");
   
     // the curreny part
-    let currencySymbol = "$";
+    var currencySymbol = "$";
       if(window.location.search.substring(1) ==="lang=de"){
         currencySymbol = "€";
       }
 
     i.classList += "list-group-item d-flex justify-content-between align-items-center ";
-    i.innerHTML = `<span class="badge badge-info badge-pill mr-2">${item.count} </span> ${item.name} -${item.price + currencySymbol}; 
-    <span class="ml-auto mr-3 font-weight-bold">${(item.price * item.count).toFixed(2) + currencySymbol};</span>`;
+    i.innerHTML = `<span class="badge badge-info badge-pill mr-2">${item.count} </span> ${item.name} - ${item.price + currencySymbol}; 
+    <span class="ml-auto mr-3 font-weight-bold">${(item.price * item.count).toFixed(2) + currencySymbol}</span>`;
 
    
     var btnn = document.createElement("button");
