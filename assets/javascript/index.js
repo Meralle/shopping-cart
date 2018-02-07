@@ -35,15 +35,38 @@ class shoppingCart {
       //TODO fill the element with the image from the database and add the name of the product to the title
       element.querySelector(".card-img-top").src = database[i].image,
       element.querySelector(".card-title").prepend(i);
-      // here i made
-      // var showPrice = document.createElement("span");
-      // showPrice.innerHTML = `showPrice: ${database[i].shipping}&euro; <br> delivery: ${database[i].delivery}d`
-      // element.querySelector(".card-body").appendChild(sowPrice);
+
+      // price part
+      var price = document.createElement("span");
+      price.innerHTML = `price:${database[i].price}€ <br>`
+      element.querySelector(".card-body").appendChild(price);
+      // console.log(database[i].discount)
+      if (database[i].discount){
+        price.style.textDecoration="line-through";
+        price.classList.add("text-danger");
+      // discount part
+      var discount = document.createElement("span");
+      discount.innerHTML = `discount:${database[i].discount}%`
+      element.querySelector(".card-body").appendChild(discount);
+      // new preice part
+      var showNewPrice = document.createElement('p');
+      var newPrice = database[i].price - (database[i].price / 100 * database[i].discount);
+      showNewPrice.innerHTML = newPrice + "€";
+      showNewPrice.classList.add("text-danger");
+      element.querySelector(".card-body").appendChild(showNewPrice);
+
+     } 
       //TODO lets put in the footer the shipping costs and delivery time
       var info = document.createElement("small");
       //TODO now we take the  button and fill it with all our data to use this for the remove action
-      info.classList.add("text-muted"),
-      info.innerHTML = `shipping: ${database[i].shipping}&euro; <br> delivery: ${database[i].delivery}d`,
+      info.classList.add("text-muted");
+
+      // the currency part
+      let currencySymbol ="$";
+      if(window.location.search.substring(1) ==="lang=de"){
+        currencySymbol = "€";
+      }
+      info.innerHTML = `shipping: ${database[i].shipping + currencySymbol}; <br> delivery: ${database[i].delivery}d`,
       
       element.querySelector(".card-footer").appendChild(info);
       var button = element.querySelector(".btn-primary");
@@ -96,7 +119,7 @@ class shoppingCart {
       }
       // removeFromCart(itemName) 
       // this.findItemKey(item); 
-    9 }
+     }
   }
   updateCart(item, remove = false){
     //here the magic happens
@@ -155,10 +178,19 @@ class shoppingCart {
 
     var cart = document.createElement('div')
     this.db.items.forEach( item => {
-      var i = document.createElement("li");
-    i.classList += "list-group-item d-flex justify-content-between align-items-center ",
-    i.innerHTML = `<span class="badge badge-info badge-pill mr-2">${item.count} </span> ${item.name} -${item.price}&euro; 
-    <span class="ml-auto mr-3 font-weight-bold">${(item.price * item.count).toFixed(2)}&euro;</span>`;
+    var i = document.createElement("li");
+  
+    // the curreny part
+    let currencySymbol = "$";
+      if(window.location.search.substring(1) ==="lang=de"){
+        currencySymbol = "€";
+      }
+
+    i.classList += "list-group-item d-flex justify-content-between align-items-center ";
+    i.innerHTML = `<span class="badge badge-info badge-pill mr-2">${item.count} </span> ${item.name} -${item.price + currencySymbol}; 
+    <span class="ml-auto mr-3 font-weight-bold">${(item.price * item.count).toFixed(2) + currencySymbol};</span>`;
+
+   
     var btnn = document.createElement("button");
     btnn.classList.add("btn-sm", "btn-danger");
     btnn.dataset.name = item.name;
@@ -180,7 +212,15 @@ class shoppingCart {
     var ttemplate = this.elements.total_template
     for (let i = 0; i < this.elements.totaltarget.length; i++){
       ttemplate = ttemplate.cloneNode(true);
-      // here yo go
+      ttemplate.removeAttribute("id");
+      ttemplate.classList.remove("d-none")
+      ttemplate.querySelector(".total").innerHTML = this.db.total ? this.db.total.toFixed(2) : 0
+      ttemplate.querySelector(".delivery").innerHTML = this.db.delivery ? this.db.delivery.toFixed(0) : 0
+      ttemplate.querySelector(".shipping").innerHTML = this.db.shipping ? this.db.shipping.toFixed(0) : 0
+      this.elements.totaltarget[i].innerHTML = ttemplate.innerHTML
+    }
+    for (let i = 0; i < this.elements.result.length; i++){
+    
       this.elements.totaltarget[i].innerHTML = ttemplate.innerHTML
     }
   }
