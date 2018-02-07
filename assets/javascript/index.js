@@ -68,11 +68,11 @@ class shoppingCart {
       info.classList.add("text-muted");
 
       // the currency part
-      var currencySymbol ="$";
+      var currencySymbol ="$"
       if(window.location.search.substring(1) ==="lang=de"){
-        currencySymbol = "€";
+        currencySymbol = "€"
       }
-      info.innerHTML = `shipping: ${database[i].shipping + currencySymbol}; <br> delivery: ${database[i].delivery}d`,
+      info.innerHTML = `shipping: ${database[i].shipping + currencySymbol} <br> delivery: ${database[i].delivery}d`
       
       element.querySelector(".card-footer").appendChild(info);
       var button = element.querySelector(".btn-primary");
@@ -217,18 +217,25 @@ class shoppingCart {
     
     var ttemplate = this.elements.total_template
     for (let i = 0; i < this.elements.totaltarget.length; i++){
-      ttemplate = ttemplate.cloneNode(true);
+      var clone = ttemplate.cloneNode(true);
       ttemplate.removeAttribute("id");
-      ttemplate.classList.remove("d-none")
-      ttemplate.querySelector(".total").innerHTML = this.db.total ? this.db.total.toFixed(2) : 0
-      ttemplate.querySelector(".delivery").innerHTML = this.db.delivery ? this.db.delivery.toFixed(0) : 0
-      ttemplate.querySelector(".shipping").innerHTML = this.db.shipping ? this.db.shipping.toFixed(0) : 0
-      this.elements.totaltarget[i].innerHTML = ttemplate.innerHTML
+      clone.classList.remove("d-none")
+      clone.querySelector(".total").innerHTML = this.db.total ? this.db.total.toFixed(2) : 0
+      clone.querySelector(".delivery").innerHTML = this.db.delivery ? this.db.delivery.toFixed(0) : 0
+      clone.querySelector(".shipping").innerHTML = this.db.shipping ? this.db.shipping.toFixed(0) : 0
+      ttemplate.querySelector(".amount").innerHTML = (this.db.total + this.db.shipping).toFixed(2);
+      if (this.db.total){
+        var tTotal = this.db.total.toFixed(1);
+       } else{
+          var tTotal = 0;
+        
+      }
+     
+      this.elements.totaltarget[i].innerHTML = clone.innerHTML
     }
-    for (let i = 0; i < this.elements.result.length; i++){
+    // for (let i = 0; i < this.elements.result.length; i++){
     
-      this.elements.totaltarget[i].innerHTML = ttemplate.innerHTML
-    }
+    // }
   }
 }
 var instaceOfCart = new shoppingCart();
