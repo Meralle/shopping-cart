@@ -233,9 +233,6 @@ class shoppingCart {
      
       this.elements.totaltarget[i].innerHTML = clone.innerHTML
     }
-    // for (let i = 0; i < this.elements.result.length; i++){
-    
-    // }
   }
 }
 var instaceOfCart = new shoppingCart();
