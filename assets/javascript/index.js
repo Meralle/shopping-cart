@@ -1,3 +1,10 @@
+
+function makeDiscount(price,discount ) {
+               const finalPrice = Number(price) - ( Number (price ) / 100 * (discount))
+                return finalPrice
+              } 
+
+
 class shoppingCart {
   constructor () {
     this.db = JSON.parse( localStorage.getItem('cart') ) || [];
@@ -54,7 +61,8 @@ class shoppingCart {
       element.querySelector(".card-body").appendChild(discount);
       // new preice part
       var showNewPrice = document.createElement('p');
-      var newPrice = database[i].price - (database[i].price / 100 * database[i].discount);
+       var newPrice = makeDiscount( database[i].price , database[i].discount)
+
             // the currency part
       
       showNewPrice.innerHTML = newPrice + currencySymbol;
@@ -80,6 +88,7 @@ class shoppingCart {
       button.dataset.delivery = database[i].delivery,
       button.dataset.shipping = database[i].shipping,
       button.dataset.price = database[i].price,
+      button.dataset.discount = database[i].discount,
       this.elements.list.appendChild(element);
       // this removes the faded class with a timeout from all divs - wooosh!
       var divs = document.querySelectorAll('#products > div');
@@ -90,6 +99,7 @@ class shoppingCart {
         setTimeout(function(){
           card.classList.remove('faded');
         }, time);
+
         time+=100
       }
     }
@@ -128,45 +138,70 @@ class shoppingCart {
      }
   }
   updateCart(item, remove = false){
-    //here the magic happens
-    //try to understand what happens here
-    let itemKey = this.findItemKey(item)
-    if(remove){
-      if(this.db.items[itemKey].count > 1){
-        this.db.items[itemKey].count--
-      }else{
-        this.db.items.shift(itemKey)
-      }
-    } else {
-      if(itemKey !== undefined){
-        this.db.items[itemKey].count++
-      } else {
-        this.db.items.push({shipping: event.target.dataset.shipping, name: event.target.dataset.name, price: event.target.dataset.price, delivery: event.target.dataset.delivery, count: 1})
-      }
-    }
-    if(this.db.items.length > 0) {
-      this.db.total = this.db.items.map((i) => {
-        return i.price * i.count
-      }).reduce((e, i) => Number(e) + Number(i))
+   //here the magic happens
+   //try to understand what happens here
+   let itemKey = this.findItemKey(item)
 
-      this.db.shipping = this.db.items.map((i) => {
-        return i.shipping
-      })
-      this.db.shipping = Math.max(...this.db.shipping)
+   if(remove){
+       if(this.db.items[itemKey].count > 1){
+           this.db.items[itemKey].count--
+       }else{
+           this.db.items.shift(itemKey)
 
-      this.db.delivery = this.db.items.map((i) => {
-        return i.delivery
-      })
-      this.db.delivery = Math.max(...this.db.delivery)
-    } else {
-      this.db.shipping = 0;
-      this.db.total = 0;
-      this.db.delivery = 0;
-    }
+       }
+   } else {
+       if(itemKey !== undefined){
+        console.log("aaaa")
+           this.db.items[itemKey].count++
+       } else  {
+           if (event.target.dataset.discount && event.target.dataset.discount !== 'undefined'){
+           console.log(event.target.dataset)
+           let updatedPrice = makeDiscount(event.target.dataset.price, event.target.dataset.discount)
+           // let updatedPrice = Number(event.target.dataset.price) - ( Number (event.target.dataset.price ) / 100 * (event.target.dataset.discount))
+               this.db.items.push({
+                   shipping: event.target.dataset.shipping,
+                   name: event.target.dataset.name,
+                   price: updatedPrice,
+                   delivery: event.target.dataset.delivery,
+                   count: 1
+               })
+           }else {
+            console.log("cccc.target.dataset")
+               this.db.items.push({
+                   shipping: event.target.dataset.shipping,
+                   name: event.target.dataset.name,
+                   price: event.target.dataset.price,
+                   delivery: event.target.dataset.delivery,
+                   count: 1
+               })
+           }
+     
+       }    
 
-    localStorage.setItem("cart", JSON.stringify( {shipping: this.db.shipping, total: this.db.total, items: this.db.items, delivery: this.db.delivery } ))
-    this.render()
+   }
+  if(this.db.items.length > 0) {
+    this.db.total = this.db.items.map((i) => {
+      return i.price * i.count
+    }).reduce((e, i) => Number(e) + Number(i))
+
+    this.db.shipping = this.db.items.map((i) => {
+      return i.shipping
+    })
+    this.db.shipping = Math.max(...this.db.shipping)
+
+    this.db.delivery = this.db.items.map((i) => {
+      return i.delivery
+    })
+    this.db.delivery = Math.max(...this.db.delivery)
+  } else {
+    this.db.shipping = 0;
+    this.db.total = 0;
+    this.db.delivery = 0;
   }
+
+  localStorage.setItem("cart", JSON.stringify( {shipping: this.db.shipping, total: this.db.total, items: this.db.items, delivery: this.db.delivery } ))
+  this.render()
+}
   render(){
     this.db.items = this.db.items || []
     // the function checks if items are in the cart and hides the cart if it is empty

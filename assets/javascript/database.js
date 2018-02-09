@@ -1,36 +1,36 @@
 var database = {
-  "Pants": {
+  "Bags": {
     price: 19.99,
     shipping: 4.99,
     delivery: 5,
     content: "Curabitur blandit tempus porttitor. Aenean eu leo quam.",
-    image: "./assets/images/1.jpeg",
+    image: "./assets/images/6.jpeg",
     discount:"40"
   },
-  "Shoes": {
+  "Jewlery": {
     price: 9.99,
     shipping: 7.99,
     delivery: 8,
     content: "Porttitor. Aenean eu leo quam. Pellentesque ornare sem.",
-    image: "./assets/images/2.jpeg",
+    image: "./assets/images/11.jpeg",
     discount:"30"
 
   },
-  "Jewlery": {
+  "Shoes": {
     price: 799.99,
     shipping: 1.99,
     delivery: 2,
     content: "Aenean eu leo quam. Pellentesque ornare",
-    image: "./assets/images/3.jpeg",
+    image: "./assets/images/8.jpeg",
     discount:"20"
 
   },
-  "books": {
+  "Book": {
     price: 20,
     shipping: 5.99,
     delivery: 3,
     content: "Tempus porttitor. Aenean eu leo quam.",
-    image: "./assets/images/4.jpeg",
+    image: "./assets/images/7.png",
   
 
   },
@@ -39,25 +39,25 @@ var database = {
     shipping: 4.99,
     delivery: 3,
     content: "Blandit tempus porttitor. Aenean eu.",
-    image: "./assets/images/5.jpeg",
+    image: "./assets/images/9.jpeg",
     discount:"30"
 
   },
-  "Useless Stuff": {
+  "Gift": {
     price: 22.99,
     shipping: 1.99,
     delivery: 2,
     content: "Landit tempus porttitor. Aenean eu.",
-    image: "./assets/images/1.jpeg",
+    image: "./assets/images/10.png",
     discount:"20"
 
   },
-  "food": {
+  "Suit": {
     price: 3.99,
     shipping: 0,
     delivery: 0,
     content: "Tempus porttitor. Aenean eu.",
-    image: "./assets/images/2.jpeg",
+    image: "./assets/images/12.jpeg",
 
   },
   "Laptop": {
@@ -65,7 +65,7 @@ var database = {
     shipping: 17,
     delivery: 9,
     content: "Porttitor. Aenean eu.",
-    image: "./assets/images/3.jpeg",
+    image: "./assets/images/13.jpeg",
     discount:"20"
 
   },
